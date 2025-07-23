@@ -1,0 +1,19 @@
+{
+  "name": "convertio-php-demo",
+  "version": "1.0.0",
+  "description": "Demo site for Convertio PHP API Library",
+  "main": "index.php",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r *.php *.md composer.json src dist/",
+    "start": "echo 'PHP demo site ready for deployment'"
+  },
+  "keywords": [
+    "convertio",
+    "php",
+    "api",
+    "file-conversion"
+  ],
+  "author": "Convertio Team",
+  "license": "MIT",
+  "devDependencies": {}
+}
