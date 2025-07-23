@@ -1,150 +1,282 @@
-<?php
-/**
- * Convertio PHP API Demo
- * 
- * This is a simple demonstration of the Convertio PHP library.
- * Replace '_YOUR_API_KEY_' with your actual API key from https://convertio.co/api/
- */
-
-require_once 'autoload.php';
-
-use \Convertio\Convertio;
-use \Convertio\Exceptions\APIException;
-use \Convertio\Exceptions\CURLException;
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertio PHP API Demo</title>
+    <title>Convertio PHP Library</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            line-height: 1.6;
-            background: #f8fafc;
         }
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
         }
-        h1 {
-            color: #1e293b;
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
             margin-bottom: 1rem;
         }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
         .code-block {
-            background: #f1f5f9;
-            padding: 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
             border-radius: 8px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
             overflow-x: auto;
-            margin: 1rem 0;
         }
+        
+        .code-block pre {
+            margin: 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
         .feature {
-            margin: 1.5rem 0;
-            padding: 1rem;
-            border-left: 4px solid #3b82f6;
-            background: #eff6ff;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #667eea;
         }
-        .warning {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 4px;
+        
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
         }
+        
         .installation {
-            background: #f0fdf4;
-            border-left: 4px solid #22c55e;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .installation h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .install-code {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             padding: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             margin: 1rem 0;
-            border-radius: 4px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔄 Convertio PHP API Library</h1>
+        <div class="header">
+            <h1>Convertio PHP</h1>
+            <p>Official PHP Wrapper for Convertio API</p>
+            <div class="badge">PHP Library</div>
+        </div>
         
-        <p>This is the official PHP wrapper for the <strong>Convertio API</strong> - a powerful file conversion service that supports hundreds of file formats.</p>
-
-        <div class="warning">
-            <strong>⚠️ API Key Required:</strong> To use this library, you need to obtain an API key from <a href="https://convertio.co/api/" target="_blank">convertio.co/api</a>
-        </div>
-
         <div class="installation">
-            <h3>📦 Installation</h3>
+            <h2>📦 Installation</h2>
             <p>Install via Composer:</p>
-            <div class="code-block">composer require convertio/convertio-php</div>
+            <div class="install-code">
+                composer require convertio/convertio-php
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🚀 Quick Start</h2>
+            <p>Here's how to get started with the Convertio PHP library:</p>
             
-            <p>Or download and include the autoloader:</p>
-            <div class="code-block">require_once 'autoload.php';</div>
-        </div>
+            <div class="code-block">
+                <pre><?php echo htmlspecialchars('<?php
+require_once \'vendor/autoload.php\';
 
-        <div class="feature">
-            <h3>🌐 Convert from URL</h3>
-            <p>Render web pages to images:</p>
-            <div class="code-block">$API = new Convertio("_YOUR_API_KEY_");
-$API->startFromURL('http://google.com/', 'png')
-    ->wait()
-    ->download('./google.png')
-    ->delete();</div>
-        </div>
+use Convertio\Convertio;
 
-        <div class="feature">
-            <h3>📄 Convert Local Files</h3>
-            <p>Convert documents between formats:</p>
-            <div class="code-block">$API = new Convertio("_YOUR_API_KEY_");
-$API->start('./input.docx', 'pdf')
-    ->wait()
-    ->download('./output.pdf')
-    ->delete();</div>
-        </div>
+// Initialize with your API key
+$convertio = new Convertio("your_api_key_here");
 
-        <div class="feature">
-            <h3>🔍 OCR Support</h3>
-            <p>Extract text from scanned documents:</p>
-            <div class="code-block">$API = new Convertio("_YOUR_API_KEY_");
-$API->start('./scan.pdf', 'docx', [
-    'ocr_enabled' => true,
-    'ocr_settings' => [
-        'langs' => ['eng', 'spa'],
-        'page_nums' => '1-3,5,7'
+// Convert a file from URL
+$conversion = $convertio->start([
+    \'inputformat\' => \'pdf\',
+    \'outputformat\' => \'jpg\',
+    \'input\' => \'download\',
+    \'file\' => \'https://example.com/document.pdf\'
+]);
+
+// Check conversion status
+$status = $convertio->status($conversion->id);
+
+// Download the result
+if ($status->step === \'finish\') {
+    $result = $convertio->download($conversion->id);
+    file_put_contents(\'converted_file.jpg\', $result);
+}
+?>'); ?></pre>
+            </div>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature">
+                <h3>🔄 File Conversion</h3>
+                <p>Convert between 300+ file formats including documents, images, videos, and audio files.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🌐 URL Support</h3>
+                <p>Convert files directly from URLs without downloading them first.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📱 OCR Support</h3>
+                <p>Extract text from images and scanned documents with built-in OCR capabilities.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>⚡ Fast Processing</h3>
+                <p>High-performance conversion servers ensure quick processing times.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔒 Secure</h3>
+                <p>All files are processed securely and deleted automatically after conversion.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📊 Progress Tracking</h3>
+                <p>Monitor conversion progress with real-time status updates.</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📋 Advanced Usage</h2>
+            
+            <h3>File Upload Conversion</h3>
+            <div class="code-block">
+                <pre><?php echo htmlspecialchars('// Upload and convert a local file
+$conversion = $convertio->start([
+    \'inputformat\' => \'docx\',
+    \'outputformat\' => \'pdf\',
+    \'input\' => \'upload\'
+]);
+
+// Upload the file
+$convertio->upload($conversion->id, \'path/to/document.docx\');
+
+// Wait for completion and download
+$convertio->wait($conversion->id);
+$result = $convertio->download($conversion->id);'); ?></pre>
+            </div>
+            
+            <h3>OCR Text Extraction</h3>
+            <div class="code-block">
+                <pre><?php echo htmlspecialchars('// Extract text from image
+$conversion = $convertio->start([
+    \'inputformat\' => \'jpg\',
+    \'outputformat\' => \'txt\',
+    \'input\' => \'download\',
+    \'file\' => \'https://example.com/image.jpg\',
+    \'options\' => [
+        \'ocr_enabled\' => true,
+        \'ocr_settings\' => [
+            \'langs\' => [\'eng\', \'fra\']
+        ]
     ]
-])->wait()->download('./editable.docx')->delete();</div>
+]);'); ?></pre>
+            </div>
         </div>
+        
+        <div class="card">
+            <h2>🔧 Configuration</h2>
+            <p>The library supports various configuration options:</p>
+            
+            <div class="code-block">
+                <pre><?php echo htmlspecialchars('// Custom timeout and retry settings
+$convertio = new Convertio("your_api_key", [
+    \'timeout\' => 60,
+    \'max_retries\' => 3,
+    \'base_url\' => \'https://api.convertio.co\'
+]);
 
-        <div class="feature">
-            <h3>📋 Supported Features</h3>
-            <ul>
-                <li>✅ 300+ file format conversions</li>
-                <li>✅ OCR (Optical Character Recognition)</li>
-                <li>✅ Web page rendering</li>
-                <li>✅ Batch processing</li>
-                <li>✅ Callback URL support</li>
-                <li>✅ Exception handling</li>
+// Set conversion options
+$options = [
+    \'inputformat\' => \'mp4\',
+    \'outputformat\' => \'mp3\',
+    \'options\' => [
+        \'audio_bitrate\' => 320,
+        \'audio_frequency\' => 44100
+    ]
+];'); ?></pre>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📚 Documentation</h2>
+            <p>For complete documentation and API reference, visit:</p>
+            <ul style="margin-top: 1rem; padding-left: 2rem;">
+                <li><a href="https://convertio.co/api/docs/" target="_blank" style="color: #667eea;">Official API Documentation</a></li>
+                <li><a href="https://github.com/convertio/convertio-php" target="_blank" style="color: #667eea;">GitHub Repository</a></li>
+                <li><a href="https://convertio.co/api/" target="_blank" style="color: #667eea;">Get API Key</a></li>
             </ul>
         </div>
-
-        <div class="feature">
-            <h3>🔗 Resources</h3>
-            <ul>
-                <li><a href="https://convertio.co/api/docs/" target="_blank">API Documentation</a></li>
-                <li><a href="https://convertio.co/formats" target="_blank">Supported Formats</a></li>
-                <li><a href="https://github.com/convertio/convertio-php" target="_blank">GitHub Repository</a></li>
-            </ul>
-        </div>
-
-        <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; color: #64748b; text-align: center;">
-            <p>Convertio PHP Library - Official SDK for file conversion API</p>
-        </footer>
     </div>
 </body>
 </html>
